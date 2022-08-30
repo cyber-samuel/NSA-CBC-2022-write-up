@@ -40,15 +40,15 @@ So it would be good to download the `HEAD`, `config`, and `index` files to see w
 However, note that the `index` file has it's own binary format, so I used a tool call `gin` to parse it. Also, the `index` file is pretty long so I omitted some information:
 
 ```
-samv in ~/hacking/codebreaker-2022/taskB2/.git on main  cat HEAD
+domlord in ~/hacking/codebreaker-2022/taskB2/.git on main  cat HEAD
 ref: refs/heads/main
-samv in ~/hacking/codebreaker-2022/taskB2/.git on main  cat config
+domlord in ~/hacking/codebreaker-2022/taskB2/.git on main  cat config
 [core]
 	repositoryformatversion = 0
 	filemode = true
 	bare = false
 	logallrefupdates = true
-samv in ~/hacking/codebreaker-2022/taskB2/.git on main  gin ./index
+domlord in ~/hacking/codebreaker-2022/taskB2/.git on main  gin ./index
 [header]
   signature = DIRC
   version = 2
@@ -176,7 +176,7 @@ samv in ~/hacking/codebreaker-2022/taskB2/.git on main  gin ./index
 
 Also, after taking a look at a sample repository I created on my local machine, I noticed that the `info` directory only had one file in it, which was a file called `exclude`, so I downloaded that as well:
 ```
-samv in ~/hacking/codebreaker-2022/taskB2/.git on main  cat info/exclude
+domlord in ~/hacking/codebreaker-2022/taskB2/.git on main  cat info/exclude
 # git ls-files --others --exclude-from=.git/info/exclude
 # Lines that start with '#' are comments.
 # For a project mostly in C, the following would be a good set of
@@ -187,17 +187,17 @@ samv in ~/hacking/codebreaker-2022/taskB2/.git on main  cat info/exclude
 
 The same thing follows for the `logs` directory:
 ```
-samv in ~/hacking/codebreaker-2022/taskB2/.git on main  ls logs/
+domlord in ~/hacking/codebreaker-2022/taskB2/.git on main  ls logs/
 HEAD refs
-samv in ~/hacking/codebreaker-2022/taskB2/.git on main  cat logs/HEAD
+domlord in ~/hacking/codebreaker-2022/taskB2/.git on main  cat logs/HEAD
 0000000000000000000000000000000000000000 489d1cd97b0cee6495f6d579e7414d746cccf02d Ransom Me This <root@ransommethis.net> 1659568019 +0000	commit (initial): Initial import
 489d1cd97b0cee6495f6d579e7414d746cccf02d 0000000000000000000000000000000000000000 Ransom Me This <root@ransommethis.net> 1659568019 +0000	Branch: renamed refs/heads/master to refs/heads/main
 0000000000000000000000000000000000000000 489d1cd97b0cee6495f6d579e7414d746cccf02d Ransom Me This <root@ransommethis.net> 1659568019 +0000	Branch: renamed refs/heads/master to refs/heads/main
-samv in ~/hacking/codebreaker-2022/taskB2/.git on main  ls logs/refs
+domlord in ~/hacking/codebreaker-2022/taskB2/.git on main  ls logs/refs
 heads
-samv in ~/hacking/codebreaker-2022/taskB2/.git on main  ls logs/refs/heads
+domlord in ~/hacking/codebreaker-2022/taskB2/.git on main  ls logs/refs/heads
 main
-samv in ~/hacking/codebreaker-2022/taskB2/.git on main  cat logs/refs/heads/main
+domlord in ~/hacking/codebreaker-2022/taskB2/.git on main  cat logs/refs/heads/main
 0000000000000000000000000000000000000000 489d1cd97b0cee6495f6d579e7414d746cccf02d Ransom Me This <root@ransommethis.net> 1659568019 +0000	commit (initial): Initial import
 489d1cd97b0cee6495f6d579e7414d746cccf02d 489d1cd97b0cee6495f6d579e7414d746cccf02d Ransom Me This <root@ransommethis.net> 1659568019 +0000	Branch: renamed refs/heads/master to refs/heads/main
 ```
@@ -206,11 +206,11 @@ There I was able to determine the branch name from the `logs/HEAD` file harveste
 
 At this point I started looking in the `refs` directory. Looking at a local model I had created, I found the associated files on the website and downloaded them:
 ```
-samv in ~/hacking/codebreaker-2022/taskB2/.git on main  ls refs
+domlord in ~/hacking/codebreaker-2022/taskB2/.git on main  ls refs
 heads
-samv in ~/hacking/codebreaker-2022/taskB2/.git on main  ls refs/heads/
+domlord in ~/hacking/codebreaker-2022/taskB2/.git on main  ls refs/heads/
 main
-samv in ~/hacking/codebreaker-2022/taskB2/.git on main  cat refs/heads/main
+domlord in ~/hacking/codebreaker-2022/taskB2/.git on main  cat refs/heads/main
 489d1cd97b0cee6495f6d579e7414d746cccf02d
 ```
 
@@ -218,12 +218,12 @@ This hash is important! A keen eye will see that it is the same hash we recieved
 
 The way the objects directory works is that it takes the first two characters from the objects hash and creates a directory. Then inside that directory, it uses the rest of the hash as a file name for the object. Here is an example:
 ```
-samv in ~/hacking/codebreaker-2022/taskB2/.git on main  ls -l objects
-drwxr-xr-x  3 samv  staff   96 Aug 15 22:40 48
-samv in ~/hacking/codebreaker-2022/taskB2/.git on main  ls -l objects/48
+domlord in ~/hacking/codebreaker-2022/taskB2/.git on main  ls -l objects
+drwxr-xr-x  3 domlord  staff   96 Aug 15 22:40 48
+domlord in ~/hacking/codebreaker-2022/taskB2/.git on main  ls -l objects/48
 total 8
--rw-r--r--  1 samv  staff  141 Aug  3 18:06 9d1cd97b0cee6495f6d579e7414d746cccf02d
-samv in ~/hacking/codebreaker-2022/taskB2/.git on main  cat objects/48/9d1cd97b0cee6495f6d579e7414d746cccf02d
+-rw-r--r--  1 domlord  staff  141 Aug  3 18:06 9d1cd97b0cee6495f6d579e7414d746cccf02d
+domlord in ~/hacking/codebreaker-2022/taskB2/.git on main  cat objects/48/9d1cd97b0cee6495f6d579e7414d746cccf02d
 [redacted binary gobbly-gook]
 ```
 
@@ -231,7 +231,7 @@ But the original hash was `489d1cd97b0cee6495f6d579e7414d746cccf02d`!
 Now all that's necessary is taking the remaining SHA1 hashes from the `index` file and repeating the process! It's not to hard to write a script for that at this point.
 Once you have rebuilt the git working tree, you should be able to run a `git status` and check out the status of the repository. `git` will realize all of the files have been deleted and want you to stage these changes if you think they are correct. What you should actually do to revert this is `git restore .` and all of the working tree items will be recovered:
 ```
-samv in ~/hacking/codebreaker-2022/taskB2 on main  tree .
+domlord in ~/hacking/codebreaker-2022/taskB2 on main  tree .
 .
 ├── Dockerfile
 ├── Pipfile

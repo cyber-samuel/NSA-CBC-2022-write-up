@@ -10,28 +10,28 @@ The FBI hopes that these tools may provide a clue to the attacker's identity
 Materials given include `root.tar.bz2` which contains the contents of the root users home directory. Also given is `session.pcap`, a wireless capture file which we may analyze in Wireshark.
 First thing first, we should extract the root directory to see what's in store:
 ```
-samv in ~/hacking/codebreaker-2022/taskA2  bzip2 -d root.tar.bz2
-samv in ~/hacking/codebreaker-2022/taskA2  tar xvf root.tar
-samv in ~/hacking/codebreaker-2022/taskA2  cd root
-samv in ~/hacking/codebreaker-2022/taskA2/root  ls -la
+domlord in ~/hacking/codebreaker-2022/taskA2  bzip2 -d root.tar.bz2
+domlord in ~/hacking/codebreaker-2022/taskA2  tar xvf root.tar
+domlord in ~/hacking/codebreaker-2022/taskA2  cd root
+domlord in ~/hacking/codebreaker-2022/taskA2/root  ls -la
 total 48
-drwx------@ 10 samv  staff   320 Dec 31  1969 .
-drwxr-xr-x   6 samv  staff   192 Aug 29 21:36 ..
--rw-------@  1 samv  staff   123 Dec 31  1969 .bash_history
--rwxr-xr-x@  1 samv  staff  3106 Dec 31  1969 .bashrc
-drwxr-xr-x@  3 samv  staff    96 Dec 31  1969 .cache
--rw-------@  1 samv  staff  5086 Dec 31  1969 .cert.pem
-drwx------@  4 samv  staff   128 Dec 31  1969 .local
--rwxr-xr-x@  1 samv  staff   148 Dec 31  1969 .profile
-drwx------@  3 samv  staff    96 Dec 31  1969 .ssh
--rwxr-xr-x@  1 samv  staff  1308 Dec 31  1969 runwww.py
-samv in ~/hacking/codebreaker-2022/taskA2 
+drwx------@ 10 domlord  staff   320 Dec 31  1969 .
+drwxr-xr-x   6 domlord  staff   192 Aug 29 21:36 ..
+-rw-------@  1 domlord  staff   123 Dec 31  1969 .bash_history
+-rwxr-xr-x@  1 domlord  staff  3106 Dec 31  1969 .bashrc
+drwxr-xr-x@  3 domlord  staff    96 Dec 31  1969 .cache
+-rw-------@  1 domlord  staff  5086 Dec 31  1969 .cert.pem
+drwx------@  4 domlord  staff   128 Dec 31  1969 .local
+-rwxr-xr-x@  1 domlord  staff   148 Dec 31  1969 .profile
+drwx------@  3 domlord  staff    96 Dec 31  1969 .ssh
+-rwxr-xr-x@  1 domlord  staff  1308 Dec 31  1969 runwww.py
+domlord in ~/hacking/codebreaker-2022/taskA2 
 ```
 
 As we can see, there exists a python script. This is likely what the attacker used to download their toolkit. Also, one should note the suspicious `.cert.pem` file, as this doesn't typically exist in a home directory.
 
 ```
-samv in ~/hacking/codebreaker-2022/taskA2/root  cat runwww.py
+domlord in ~/hacking/codebreaker-2022/taskA2/root  cat runwww.py
 #!/usr/bin/env python3
 
 # This script will create an anonymous, secure, temporary web server to transfer files over HTTPS.
@@ -85,7 +85,7 @@ Now we can analyze the session capture.
 Here we can see that the traffic is encrypted with `TLSv1.2` encryption. However, from our analysis we have the certificate used to encrypt the traffic!
 So, using Wireshark we can decrypt the traffic:
 ```
-samv in ~/hacking/codebreaker-2022/taskA2/root  mv .cert.pem cert.pem
+domlord in ~/hacking/codebreaker-2022/taskA2/root  mv .cert.pem cert.pem
 ```
 
 In Wireshark, go to `Preferences->Protocols->TLS->RSA keys list->Key File` and then add your `cert.pem` file:

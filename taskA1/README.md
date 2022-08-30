@@ -21,19 +21,19 @@ Here are some basic stats about the file:
 
 Amount of lines:
 ```
-samv in ~/hacking/codebreaker-2022/taskA1  wc -l vpn.log
+domlord in ~/hacking/codebreaker-2022/taskA1  wc -l vpn.log
      161 vpn.log
 ```
 
 Amount of usernames present:
 ```
-samv in ~/hacking/codebreaker-2022/taskA1  cat vpn.log | cut -d',' -f2 | sort | uniq | wc -l
+domlord in ~/hacking/codebreaker-2022/taskA1  cat vpn.log | cut -d',' -f2 | sort | uniq | wc -l
       45
 ```
 
 So we have a decent chunk of information to sort through. There are also error lines that should be noted:
 ```
-samv in ~/hacking/codebreaker-2022/taskA1  cat vpn.log | grep not
+domlord in ~/hacking/codebreaker-2022/taskA1  cat vpn.log | grep not
 openvpn-server,Patrick.J,2022.01.31 13:30:06 EDT,,VPN,0,0,172.24.72.80,,UDP,1194,,user not found
 openvpn-server,Virginia.X,2022.01.31 14:21:55 EDT,,VPN,0,0,172.29.53.77,,UDP,1194,,user not found
 openvpn-server,Cheryl.O,2022.01.31 14:44:21 EDT,,VPN,0,0,172.20.236.215,,UDP,1194,,user not found
@@ -77,7 +77,7 @@ openvpn-server,Betty.H,2022.02.05 14:21:53 EDT,,VPN,0,0,172.20.107.85,,UDP,1194,
 
 However, the first thing we should do is learn about each of the entries and what they mean. The header of the file is as follows:
 ```
-samv in ~/hacking/codebreaker-2022/taskA1  head -1 vpn.log
+domlord in ~/hacking/codebreaker-2022/taskA1  head -1 vpn.log
 Node,Username,Start Time,Duration,Service,Active,Auth,Real Ip,Vpn Ip,Proto,Port,Bytes Total,Error
 ```
 
